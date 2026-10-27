@@ -194,6 +194,7 @@ COMPARISON_DIMENSIONS = frozenset(
     for field in schema.model_fields
 ) | {
     "runtime.version",
+    "runtime.engine",
     "runtime.attention_backend",
     "runtime.linear_backend",
     "runtime.kv_cache_dtype_resolved",
@@ -202,7 +203,9 @@ COMPARISON_DIMENSIONS = frozenset(
     "hardware.gpu_names",
     "hardware.driver",
     "model.source_repo_id",
+    "model.source_revision",
     "workload.dataset_sha256",
+    "workload.dataset_version",
     "workload.plan_sha256",
     "workload.chat_template_sha256",
     "workload.template_parameters",
@@ -211,6 +214,22 @@ COMPARISON_DIMENSIONS = frozenset(
     "metric_contract_version",
     "protocol.warmup",
     "protocol.measurement",
+    "protocol.concurrency",
+    "protocol.request_plan_sha256",
+    "protocol.timeouts",
+    "hardware.gpu_used_count",
+    "hardware.gpu_indices",
+    "hardware.gpu_compute_capability",
+    "hardware.gpu_vram_bytes",
+    "hardware.cpu",
+    "hardware.ram_bytes",
+    "environment.python",
+    "environment.os",
+    "environment.driver_supported_cuda",
+    "environment.pytorch_cuda_runtime",
+    "environment.cuda_toolkit",
+    "client.git_sha",
+    "client.git_dirty",
 }
 
 
@@ -222,7 +241,11 @@ class ComparisonConfig(ContractModel):
     def explicit_dimensions(self) -> Self:
         if len(set(self.allowed_changes)) != len(self.allowed_changes):
             raise ValueError("Allowed changes must be unique")
-        if set(self.allowed_changes) - COMPARISON_DIMENSIONS:
+        if any(
+            path not in COMPARISON_DIMENSIONS
+            and not re.fullmatch(r"dependencies\.[a-z0-9]+(?:-[a-z0-9]+)*", path)
+            for path in self.allowed_changes
+        ):
             raise ValueError("Allowed changes must name supported exact paths, without wildcards")
         return self
 
@@ -635,15 +658,44 @@ class ComparisonReason(ContractModel):
     field: Text | None = None
 
 
+SignedNumber = Annotated[float, Field(strict=True, allow_inf_nan=False)]
+
+
+class ComparisonClause(ContractModel):
+    point: Count
+    metric: MetricName
+    kind: Literal["slo", "regression"]
+    verdict: Verdict
+    threshold: Number
+    noise_margin: Number | None
+    repetitions: list[Count]
+    required_repetitions: PositiveCount
+    min_samples: PositiveCount
+    baseline_values: list[Number | None]
+    candidate_values: list[Number | None]
+    baseline_sample_counts: list[Count]
+    candidate_sample_counts: list[Count]
+    relative_changes: list[SignedNumber]
+    min_relative_change: SignedNumber | None
+    max_relative_change: SignedNumber | None
+    violating_run_ids: list[Identifier]
+    reason: Text
+
+
 class ComparisonResult(ContractModel):
     schema_version: Literal["1.0"]
     metric_contract_version: Literal["1.0"]
-    baseline_run_ids: Annotated[list[Identifier], Field(min_length=1)]
-    candidate_run_ids: Annotated[list[Identifier], Field(min_length=1)]
-    comparison: ComparisonConfig
+    baseline_run_ids: list[Identifier]
+    candidate_run_ids: list[Identifier]
+    comparison: ComparisonConfig | None
     verdict: Verdict
     reasons: list[ComparisonReason]
     differences: list[ComparisonDifference]
+    clauses: list[ComparisonClause] = Field(default_factory=list)
+    policy_sha256: Sha256 | None = None
+    synthetic: StrictBool | None = None
+    published: Literal[False] = False
+    limitations: list[Text] = Field(default_factory=list)
 
     @property
     def exit_code(self) -> int:
@@ -653,15 +705,21 @@ class ComparisonResult(ContractModel):
     def defensible_verdict(self) -> Self:
         if self.verdict != "PASS" and not self.reasons:
             raise ValueError("Non-PASS verdicts require structured reasons")
-        unauthorized = {d.path for d in self.differences} - set(self.comparison.allowed_changes)
+        if self.verdict != "INVALID" and (
+            self.comparison is None or not self.baseline_run_ids or not self.candidate_run_ids
+        ):
+            raise ValueError("Non-invalid comparisons require declared conditions and run IDs")
+        unauthorized = {d.path for d in self.differences} - set(
+            self.comparison.allowed_changes if self.comparison is not None else []
+        )
         if unauthorized and self.verdict != "INVALID":
             raise ValueError("Unauthorized comparison differences require INVALID")
         if self.verdict in ("PASS", "FAIL") and len(self.baseline_run_ids) != len(
             self.candidate_run_ids
         ):
             raise ValueError("Conclusive comparisons require paired repetitions")
-        if len(set(self.baseline_run_ids + self.candidate_run_ids)) != len(
-            self.baseline_run_ids + self.candidate_run_ids
-        ):
+        if self.verdict != "INVALID" and len(
+            set(self.baseline_run_ids + self.candidate_run_ids)
+        ) != len(self.baseline_run_ids + self.candidate_run_ids):
             raise ValueError("Comparison run identities must be distinct")
         return self
