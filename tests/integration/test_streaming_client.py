@@ -274,3 +274,56 @@ async def test_reject_invalid_payload_before_sending(change: dict) -> None:
         with pytest.raises(ValueError):
             async with client.stream("http://127.0.0.1:1/v1/chat/completions", PAYLOAD | change):
                 pytest.fail("Invalid payload sent")
+
+
+@pytest.mark.parametrize("success", [True, False])
+async def test_cli_probe_writes_manifest_even_when_stream_fails(
+    tmp_path, monkeypatch, success: bool
+) -> None:
+    import os
+    from argparse import Namespace
+    from pathlib import Path
+
+    from inference_lab.config.io import load_experiment
+    from inference_lab.config.schemas import ExperimentConfig
+    from inference_lab.serving.__main__ import _probe, _write
+    from inference_lab.serving.runtime import VERSIONS, Observation, launch_plan, process_identity
+
+    async def source() -> AsyncIterator[bytes]:
+        yield event("synthetic", "length")
+        if success:
+            yield USAGE + DONE
+
+    async with server(source) as url:
+        config = load_experiment(
+            Path(__file__).resolve().parents[2] / "experiments/qwen3b-fp16.yaml"
+        ).model_dump(mode="json")
+        config["target"]["url"] = url
+        plan = launch_plan(ExperimentConfig.model_validate(config))
+        identity = process_identity(os.getpid())
+        _write(tmp_path / "launch.json", plan.model_dump(mode="json"))
+        _write(tmp_path / "server-process.json", {"pid": os.getpid(), "start_ticks": identity[1]})
+        _write(tmp_path / "versions.json", VERSIONS)
+        (tmp_path / "server.log").write_text(
+            "Synthetic CPU fixture: no real runtime observations.\nApplication startup complete.\n"
+        )
+        monkeypatch.setattr(
+            "inference_lab.serving.__main__.gpu_observations",
+            lambda *_: {
+                "gpu.present": Observation(
+                    value=None, source="synthetic", reason="No GPU in CPU test"
+                ),
+                "gpu.used": Observation(
+                    value=None, source="synthetic", reason="No GPU in CPU test"
+                ),
+            },
+        )
+        args = Namespace(output=tmp_path, startup_timeout=2)
+        assert await _probe(args) == (2 if success else 1)
+        manifest = json.loads((tmp_path / "runtime_manifest.json").read_text())
+        assert manifest["readiness"]["status"] == ("VALIDATED" if success else "FAILED")
+        assert manifest["status"] == ("UNAVAILABLE" if success else "FAILED")
+        assert manifest["observed"]["runtime.dtype"]["value"] is None
+        assert "synthetic" not in json.dumps(manifest["readiness"])  # No response content stored.
+        with pytest.raises(ValueError, match="already exists"):
+            await _probe(args)
