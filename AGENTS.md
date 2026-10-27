@@ -6,7 +6,7 @@ InferenceLab is a Python 3.12 bootstrap. Application code lives in `src/inferenc
 
 `inference_lab_codex_prompts_v5_1/` contains design documents and implementation prompts, not working features. Start with `START_HERE.md`; consult `PROJECT_DESIGN_DOCUMENT.md` and `BENCHMARK_CONTRACT.md` before implementing a stage. Follow the pack’s README execution order. Optional proposals require explicit selection.
 
-`config` contains canonical schemas, YAML loading, and settings; see `docs/architecture.md`. `serving` contains the external vLLM launch/probe CLI and reusable HTTP streaming client; see `docs/serving.md`. `registry`, `telemetry`, and `storage` are reserved namespaces. Qualification evidence lives in `qualification/`. CPU containers use `compose.yaml`; `compose.gpu.yaml` is a separate opt-in Linux GPU profile. Normative links in `docs/` reuse the implementation pack's canonical documents.
+`config` contains canonical schemas, YAML loading, and settings; see `docs/architecture.md`. `serving` contains the external vLLM launch/probe CLI and HTTP streaming client; see `docs/serving.md`. `benchmark` contains deterministic plan preparation, one-point closed-loop measurement, and raw-data metric replay; see `docs/benchmarking.md`. `registry`, `telemetry`, and `storage` are reserved namespaces. Qualification evidence lives in `qualification/`. CPU containers use `compose.yaml`; `compose.gpu.yaml` is a separate opt-in Linux GPU profile. Normative links in `docs/` reuse the implementation pack's canonical documents.
 
 ## Build, Test, and Development Commands
 
@@ -31,7 +31,7 @@ Leave one runnable check for nontrivial logic. Use `test_*.py` files and the `un
 
 ## Commit & Pull Request Guidelines
 
-History contains `initial commit` and `build: environment set up`; no strict commit convention is established. Use concise, imperative subjects with an optional scope prefix. Keep commits focused. PRs should explain behavior, validation performed, limitations, and relevant issues. Include artifacts for performance claims; never present unexecuted GPU qualification as verified.
+Use Conventional Commits, such as `feat(benchmark): add request measurements`. Keep independently reversible changes in dependency order, with tests beside their feature. Keep commits focused. PRs should explain behavior, validation performed, limitations, and relevant issues. Include artifacts for performance claims; never present unexecuted GPU qualification as verified.
 
 ## Security & Configuration
 

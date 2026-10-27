@@ -10,7 +10,7 @@ import httpx
 import pytest
 import uvicorn
 from fastapi import FastAPI, Request
-from fastapi.responses import Response, StreamingResponse
+from fastapi.responses import PlainTextResponse, Response, StreamingResponse
 
 from inference_lab.serving.client import StreamError, StreamingClient, readiness
 
@@ -43,8 +43,15 @@ async def server(
     status: int = 200,
     content_type: str = "text/event-stream",
     captured: list[dict] | None = None,
+    metrics: Callable[[], str] | None = None,
 ) -> AsyncIterator[str]:
     app = FastAPI()
+
+    if metrics is not None:
+
+        @app.get("/metrics", response_class=PlainTextResponse)
+        async def scheduler() -> str:
+            return metrics()
 
     @app.get("/health")
     async def health() -> dict:

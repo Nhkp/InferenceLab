@@ -7,8 +7,8 @@ Reproducible LLM serving experiments and GPU performance evidence.
 The repository contains an installable Python 3.12 package, a health endpoint,
 a synthetic streaming upstream, versioned schemas, environment settings,
 a reusable HTTP streaming client, explicit vLLM launch/probe commands, runtime
-manifests, CPU tests, Docker Compose, and CPU CI.
-Benchmark runners, gateway forwarding, database imports, telemetry, dashboards,
+manifests, a direct closed-loop measurement runner, CPU tests, Docker Compose, and CPU CI.
+Campaign orchestration, gateway forwarding, database imports, telemetry, dashboards,
 regression evaluation, and the portfolio Kernel Lab are later implementation stages.
 
 The authoritative [design](docs/PROJECT_DESIGN_DOCUMENT.md) and
@@ -68,11 +68,13 @@ Kaggle qualification uses processes and loopback HTTP in a single session.
 
 ## Repository layout
 
-- `src/inference_lab/`: gateway, mock, config schemas/settings, and direct serving; benchmark,
-  registry, telemetry, and storage namespaces for subsequent stages.
+- `src/inference_lab/`: gateway health API, direct serving, config schemas/settings,
+  dataset/plan preparation, raw measurements, and client metric aggregation.
+  Registry, telemetry, and storage are reserved namespaces.
 - `tests/unit/`, `tests/integration/`: CPU health, validation, and HTTP streaming checks.
 - `qualification/`: preserved Kaggle evidence, failure history, and qualification scripts.
-- `kernel_lab/rmsnorm/`, `experiments/datasets/`, `dashboards/`, `results/`,
+- `experiments/datasets/`: versioned public reference workloads and tokenizer evidence.
+- `kernel_lab/rmsnorm/`, `dashboards/`, `results/`,
   `deploy/{prometheus,grafana}/`, `kaggle/`, `scripts/`: reserved stage directories.
 - `.github/workflows/ci.yaml`: locked CPU installation, lint, typing, tests, package
   build, and CPU image build; no GPU execution or weight downloads.
@@ -81,8 +83,9 @@ Kaggle qualification uses processes and loopback HTTP in a single session.
 
 See [architecture and configuration](docs/architecture.md) for canonical schema 1.0,
 environment variables, publication checks, and deployment profiles.
-`experiments/qwen3b-fp16.yaml` is the experiment example. Its dataset and the
-uncalibrated policy in `tests/data/` are synthetic schema fixtures.
+`experiments/qwen3b-fp16.yaml` uses the tokenizer-verified short-chat dataset.
+`experiments/mock-stream.yaml` provides a CPU smoke; `tests/data/` retains synthetic
+schema fixtures and an uncalibrated policy.
 
 ```sh
 uv run --locked python -c 'from pathlib import Path; from inference_lab.config.io import load_experiment; print(load_experiment(Path("experiments/qwen3b-fp16.yaml")).name)'
@@ -116,12 +119,13 @@ T4 smoke; the preserved 00B evidence has not been rerun by stage 03.
 
 ## Measurement and limits
 
-Future benchmarks use a closed-loop external HTTP runner, monotone client timing,
+See [direct measurement](docs/benchmarking.md) for copyable CPU/GPU commands,
+pre-tokenized plans, one-point runs, artifact replay, and interruption behavior.
+The runner uses closed-loop external HTTP, monotone client timing,
 server usage tokens, and canonical JSON artifacts. SSE events are not tokens;
 `client_tpot_estimate_ms` is a client reception estimate. PostgreSQL will index
-artifacts without becoming a campaign dependency. Policy evaluation and schema-based artifact
-validation of campaign artifacts are introduced with their implementation stages;
-canonical schema definitions and synthetic-fixture validation are available now.
+artifacts without becoming a campaign dependency. Campaign orchestration and
+policy evaluation remain later stages; individual run artifacts already use the canonical schemas and can be recalculated from raw data.
 
 Current GPU evidence consists of correctness and functional smokes, without SLO,
 p99, throughput, TP speedup, or quantization speedup certification. Runtime KV dtype

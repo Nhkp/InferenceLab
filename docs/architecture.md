@@ -34,11 +34,11 @@ prompt storage are not activated by declaring their settings.
 
 ## Canonical YAML
 
-`experiments/qwen3b-fp16.yaml` is the single experiment example. It preserves the
+`experiments/qwen3b-fp16.yaml` is the Qwen reference example. It preserves the
 canonical fields and pinned model/tokenizer commits, with FP16 and explicitly
-**enable_chunked_prefill=false**, following qualification c. The dataset is a
-synthetic schema fixture; concurrency and measurement values are templates, not
-qualified load capacities or performance claims.
+**enable_chunked_prefill=false**, following qualification c. The short-chat dataset
+has verified post-template input lengths; concurrency and measurement values remain
+templates, not qualified load capacities or performance claims.
 
 ```python
 from pathlib import Path
@@ -50,8 +50,8 @@ experiment.validate_input_length(128)  # Supply a measured, post-template length
 
 Safe YAML loading rejects duplicate/non-string mapping keys, unsafe object tags,
 and merge keys. Dataset/policy references are relative to `project_root` (default:
-current directory). Dataset loading and tokenization are later runner work; a
-filename is never evidence of input length.
+current directory). Dataset/plan preparation and one-point measurement are implemented in stage 08;
+see [direct measurement](benchmarking.md). A filename is never evidence of input length.
 
 Draft revisions may be mobile. `load_experiment(..., published=True)` and published
 results require immutable model/tokenizer commits. Published real GPU results
@@ -64,7 +64,9 @@ ExperimentRun identifies a campaign/run, zero-based point/repetition, and one
 concurrency. ExperimentResult contains result_schema_version and
 metric_contract_version, resolved config, environment, workload/runtime evidence,
 counters, metrics, limitations, artifact references, and optional policy snapshot.
-Expected launch configuration remains in experiment.yaml. Observations must not
+Observed token-length ranges remain null with missing reasons until server usage
+is available; zero is never a placeholder. Expected launch configuration remains
+in experiment.yaml. Observations must not
 be inferred from that expected configuration; unverified runtime values require
 null and reasons. Present, visible and used GPUs are distinct; TP uses the used
 count. T4 execution cannot claim BF16.

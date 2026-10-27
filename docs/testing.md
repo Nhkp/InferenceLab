@@ -36,11 +36,21 @@ expected/effective differences, unknown/conflicting values and GPU UUID/process
 ownership; it does not execute GPU work. See [serving](serving.md) for separate GPU checks.
 
 The mock performs no tokenization, model download, or inference. Its counters are
-explicit synthetic fixtures. Benchmark statistics, campaign artifact validation, gateway
-forwarding, actual GPU engine drain, database behavior, and performance gates are
+explicit synthetic fixtures. Campaign orchestration, gateway forwarding, actual
+GPU engine drain, database behavior, and performance gates are
 not implemented or tested at this stage.
 
 There are currently no pytest GPU tests. A future `pytest -m gpu` run with no
 selected checks is not validation. The real GPU evidence is in
 `qualification/kaggle-t4-20261025-c/`; the original failed attempt is preserved.
 Do not run qualification scripts as part of the CPU application tests.
+
+Direct-measurement tests check deterministic plans and dataset integrity, strict
+payloads, observed/unknown token lengths, exact finite-batch windows, linear
+percentiles, missing/one-chunk TPOT, failed-response token exclusion, C workers/N
+attempts, warmup separation, final usage/DONE timing, raw replay, partial failures,
+nonconformant output lengths, incomplete cancellation artifacts, unavailable drain
+counters, and the CLI. Reference dataset hashes/template provenance are checked
+offline; CPU CI never loads or downloads the real tokenizer. Their one-time CPU
+tokenization verification is recorded in `experiments/datasets/tokenizer-evidence.json`.
+See [direct measurement](benchmarking.md) for scope and separate real-GPU checks.
