@@ -1,0 +1,250 @@
+{
+  "campaign_id": "synthetic-campaign",
+  "run_id": "synthetic-run",
+  "point": 0,
+  "repetition": 0,
+  "concurrency": 1,
+  "config": {
+    "schema_version": "1.0",
+    "name": "qwen3b-fp16-reference",
+    "model": {
+      "repo_id": "Qwen/Qwen2.5-3B-Instruct",
+      "revision": "aa8e72537993ba99e69dfaafa59ed015b17504d1",
+      "tokenizer_repo_id": "Qwen/Qwen2.5-3B-Instruct",
+      "tokenizer_revision": "aa8e72537993ba99e69dfaafa59ed015b17504d1",
+      "trust_remote_code": false
+    },
+    "runtime": {
+      "backend": "vllm",
+      "dtype": "float16",
+      "quantization": null,
+      "tensor_parallel_size": 1,
+      "max_model_len": 4096,
+      "max_num_seqs": 32,
+      "max_num_batched_tokens": 4096,
+      "gpu_memory_utilization": 0.85,
+      "kv_cache_dtype": "auto",
+      "enable_prefix_caching": false,
+      "enable_chunked_prefill": false,
+      "enforce_eager": true
+    },
+    "target": {
+      "kind": "direct",
+      "url": "http://127.0.0.1:8001/v1/chat/completions"
+    },
+    "workload": {
+      "dataset": "tests/data/synthetic-dataset.jsonl",
+      "load_model": "closed_loop",
+      "concurrency": [
+        1
+      ],
+      "seed": 42
+    },
+    "generation": {
+      "stream": true,
+      "n": 1,
+      "temperature": 0.0,
+      "max_tokens": 128,
+      "ignore_eos": true
+    },
+    "warmup": {
+      "requests_per_point": 20
+    },
+    "measurement": {
+      "requests_per_run": 1,
+      "repetitions": 1,
+      "purpose": "smoke"
+    },
+    "policy_file": null
+  },
+  "result_schema_version": "1.0",
+  "metric_contract_version": "1.0",
+  "complete": true,
+  "published": false,
+  "synthetic": true,
+  "qualification_id": null,
+  "environment": {
+    "python": "synthetic-python",
+    "os": "synthetic-os",
+    "cpu": "synthetic-cpu",
+    "ram_bytes": 1,
+    "gpu_present": [],
+    "gpu_visible_uuids": [],
+    "gpu_used_uuids": [],
+    "topology": null,
+    "nvidia_driver": null,
+    "driver_supported_cuda": null,
+    "pytorch_cuda_runtime": null,
+    "cuda_toolkit": null,
+    "torch_version": null,
+    "vllm_version": null,
+    "triton_version": null,
+    "git_sha": null,
+    "git_dirty": false,
+    "missing_reasons": {
+      "topology": "Synthetic fixture: not observed",
+      "nvidia_driver": "Synthetic fixture: not observed",
+      "driver_supported_cuda": "Synthetic fixture: not observed",
+      "pytorch_cuda_runtime": "Synthetic fixture: not observed",
+      "cuda_toolkit": "Synthetic fixture: not observed",
+      "torch_version": "Synthetic fixture: not observed",
+      "vllm_version": "Synthetic fixture: not observed",
+      "triton_version": "Synthetic fixture: not observed",
+      "git_sha": "Synthetic fixture: not observed"
+    }
+  },
+  "workload": {
+    "dataset_name": "synthetic-short",
+    "dataset_version": "1",
+    "dataset_sha256": "7b5fae112def5b41b65e4cc9ded2f71bec809bd950cfaceb19de1e31d701bd3f",
+    "plan_sha256": "56ee1234d374c17fe5aeb4a9c73f93c8c138b762e262b3828e469b0a13b71fbb",
+    "tokenizer_repo_id": "Qwen/Qwen2.5-3B-Instruct",
+    "tokenizer_revision": "aa8e72537993ba99e69dfaafa59ed015b17504d1",
+    "chat_template_sha256": "0857e4729d7d5d0ebbc3a5c2f0fd6dd13aab00cfa59f65e5dc016bbb1156df9b",
+    "template_parameters": {},
+    "input_tokens_min": 3,
+    "input_tokens_max": 3,
+    "output_tokens_min": 128,
+    "output_tokens_max": 128,
+    "conformant": true
+  },
+  "runtime_manifest": {
+    "resolved": {
+      "backend": "vllm",
+      "dtype": "float16",
+      "quantization": null,
+      "tensor_parallel_size": 1,
+      "max_model_len": 4096,
+      "max_num_seqs": 32,
+      "max_num_batched_tokens": 4096,
+      "gpu_memory_utilization": 0.85,
+      "kv_cache_dtype": "auto",
+      "enable_prefix_caching": false,
+      "enable_chunked_prefill": false,
+      "enforce_eager": true
+    },
+    "attention_backend": null,
+    "linear_backend": null,
+    "kv_cache_dtype_resolved": null,
+    "source": "synthetic",
+    "evidence_artifact": "synthetic-result.json",
+    "missing_reasons": {
+      "attention_backend": "Synthetic fixture: no GPU runtime",
+      "linear_backend": "Synthetic fixture: no GPU runtime",
+      "kv_cache_dtype_resolved": "Synthetic fixture: no GPU runtime"
+    }
+  },
+  "counters": {
+    "attempts": 1,
+    "successes": 1,
+    "errors": 0
+  },
+  "metrics": {
+    "client_ttft_p50_ms": {
+      "value": null,
+      "unit": "ms",
+      "source": "client",
+      "sample_count": 0,
+      "population": "successful_requests",
+      "reason": "Not measured in this synthetic schema fixture"
+    },
+    "client_ttft_p95_ms": {
+      "value": null,
+      "unit": "ms",
+      "source": "client",
+      "sample_count": 0,
+      "population": "successful_requests",
+      "reason": "Not measured in this synthetic schema fixture"
+    },
+    "client_ttft_p99_ms": {
+      "value": null,
+      "unit": "ms",
+      "source": "client",
+      "sample_count": 0,
+      "population": "successful_requests",
+      "reason": "Not measured in this synthetic schema fixture"
+    },
+    "client_e2e_p50_ms": {
+      "value": null,
+      "unit": "ms",
+      "source": "client",
+      "sample_count": 0,
+      "population": "successful_requests",
+      "reason": "Not measured in this synthetic schema fixture"
+    },
+    "client_e2e_p95_ms": {
+      "value": null,
+      "unit": "ms",
+      "source": "client",
+      "sample_count": 0,
+      "population": "successful_requests",
+      "reason": "Not measured in this synthetic schema fixture"
+    },
+    "client_e2e_p99_ms": {
+      "value": null,
+      "unit": "ms",
+      "source": "client",
+      "sample_count": 0,
+      "population": "successful_requests",
+      "reason": "Not measured in this synthetic schema fixture"
+    },
+    "client_tpot_estimate_p50_ms": {
+      "value": null,
+      "unit": "ms",
+      "source": "client",
+      "sample_count": 0,
+      "population": "successful_requests",
+      "reason": "Not measured in this synthetic schema fixture"
+    },
+    "client_tpot_estimate_p95_ms": {
+      "value": null,
+      "unit": "ms",
+      "source": "client",
+      "sample_count": 0,
+      "population": "successful_requests",
+      "reason": "Not measured in this synthetic schema fixture"
+    },
+    "client_tpot_estimate_p99_ms": {
+      "value": null,
+      "unit": "ms",
+      "source": "client",
+      "sample_count": 0,
+      "population": "successful_requests",
+      "reason": "Not measured in this synthetic schema fixture"
+    },
+    "successful_requests_per_second": {
+      "value": null,
+      "unit": "requests/s",
+      "source": "client",
+      "sample_count": 0,
+      "population": "all_attempts",
+      "reason": "Not measured in this synthetic schema fixture"
+    },
+    "successful_output_tokens_per_second": {
+      "value": null,
+      "unit": "tokens/s",
+      "source": "client",
+      "sample_count": 0,
+      "population": "all_attempts",
+      "reason": "Not measured in this synthetic schema fixture"
+    },
+    "error_rate": {
+      "value": null,
+      "unit": "ratio",
+      "source": "client",
+      "sample_count": 0,
+      "population": "all_attempts",
+      "reason": "Not measured in this synthetic schema fixture"
+    }
+  },
+  "percentile_method": "linear",
+  "limitations": [
+    "Synthetic schema fixture; all timestamps, lengths and counts are invented test data, never GPU evidence.",
+    "GPU raw artifact is empty because this fixture does not use a GPU."
+  ],
+  "artifacts": {
+    "requests": "synthetic-request.json",
+    "gpu": "synthetic-gpu.jsonl"
+  },
+  "policy": null
+}

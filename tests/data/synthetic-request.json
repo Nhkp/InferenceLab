@@ -1,0 +1,18 @@
+{
+  "request_id": "synthetic-request-001",
+  "dataset_request_id": "synthetic-001",
+  "plan_index": 0,
+  "transport_status": "success",
+  "workload_status": "conformant",
+  "request_start_ns": 1000000,
+  "first_content_ns": 2000000,
+  "last_content_ns": 3000000,
+  "terminal_ns": 4000000,
+  "content_events": 2,
+  "input_tokens": 3,
+  "output_tokens": 128,
+  "token_count_source": "server_usage",
+  "finish_reason": "length",
+  "error": null,
+  "missing_reasons": {}
+}
