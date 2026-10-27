@@ -1,0 +1,21 @@
+# Synthetic CPU policy fixture only. Thresholds are uncalibrated examples.
+# Stage 09 stores this policy; it does not evaluate any gate.
+schema_version: '1.0'
+policy_id: mock-paired-uncalibrated
+workload_id: mock-v1
+calibration_ref: null
+required_metrics:
+- client_ttft_p95_ms
+min_samples_per_metric:
+  client_ttft_p95_ms: 1
+min_repetitions: 3
+slo:
+  client_ttft_p95_ms:
+    max: 1000.0
+regression:
+  client_ttft_p95_ms:
+    max_relative_degradation: 0.1
+    noise_margin: 0.02
+comparison:
+  kind: regression
+  allowed_changes: []

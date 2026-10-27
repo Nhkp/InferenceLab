@@ -1,8 +1,8 @@
 # Direct measurement — stage 08
 
 The pack's execution order is **03 → 08 → 09 → 10 → 04**. This stage implements
-one concurrency point and repetition. Campaign orchestration, gates, and gateway
-forwarding are later steps. The runner is an external HTTP process and has no DB,
+one concurrency point and repetition. Stage 09 adds [campaign orchestration](campaigns.md)
+on top of this runner; gates and gateway forwarding remain later steps. The runner is an external HTTP process and has no DB,
 model-loading, or GPU-package dependency.
 
 ## CPU smoke

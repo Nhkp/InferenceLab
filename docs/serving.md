@@ -1,7 +1,8 @@
 # Direct serving — stage 03
 
 `inference_lab.serving` runs vLLM as an external process. FastAPI still exposes
-only health; the gateway and benchmark runner are subsequent stages. No GPU import,
+only health; gateway forwarding is a subsequent stage.
+[Direct measurement](benchmarking.md) and [campaigns](campaigns.md) now reuse this client. No GPU import,
 model download, retry, or database write occurs in the HTTP client or CPU tests.
 
 ## Qualified launch profile

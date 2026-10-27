@@ -36,8 +36,8 @@ expected/effective differences, unknown/conflicting values and GPU UUID/process
 ownership; it does not execute GPU work. See [serving](serving.md) for separate GPU checks.
 
 The mock performs no tokenization, model download, or inference. Its counters are
-explicit synthetic fixtures. Campaign orchestration, gateway forwarding, actual
-GPU engine drain, database behavior, and performance gates are
+explicit synthetic fixtures. Gateway forwarding, actual GPU engine drain,
+database behavior, and performance gates are
 not implemented or tested at this stage.
 
 There are currently no pytest GPU tests. A future `pytest -m gpu` run with no
@@ -54,3 +54,10 @@ counters, and the CLI. Reference dataset hashes/template provenance are checked
 offline; CPU CI never loads or downloads the real tokenizer. Their one-time CPU
 tokenization verification is recorded in `experiments/datasets/tokenizer-evidence.json`.
 See [direct measurement](benchmarking.md) for scope and separate real-GPU checks.
+
+Campaign tests cover one-run identities, sequential points/repetitions and warmups,
+paired AB/BA order, manual CLI handoffs, calibration snapshots, source-independent
+resume, unchanged session/timeouts, frozen input/result/raw integrity, duplicate
+resume exclusion, runtime/workload mismatch, failed drain/warmup/measurement, and
+incomplete cancellation artifacts. Every campaign uses controlled CPU SSE; real
+GPU execution and gate evaluation are not implied. No database is needed.

@@ -6,7 +6,7 @@ InferenceLab is a Python 3.12 bootstrap. Application code lives in `src/inferenc
 
 `inference_lab_codex_prompts_v5_1/` contains design documents and implementation prompts, not working features. Start with `START_HERE.md`; consult `PROJECT_DESIGN_DOCUMENT.md` and `BENCHMARK_CONTRACT.md` before implementing a stage. Follow the pack’s README execution order. Optional proposals require explicit selection.
 
-`config` contains canonical schemas, YAML loading, and settings; see `docs/architecture.md`. `serving` contains the external vLLM launch/probe CLI and HTTP streaming client; see `docs/serving.md`. `benchmark` contains deterministic plan preparation, one-point closed-loop measurement, and raw-data metric replay; see `docs/benchmarking.md`. `registry`, `telemetry`, and `storage` are reserved namespaces. Qualification evidence lives in `qualification/`. CPU containers use `compose.yaml`; `compose.gpu.yaml` is a separate opt-in Linux GPU profile. Normative links in `docs/` reuse the implementation pack's canonical documents.
+`config` contains canonical schemas, YAML loading, and settings; see `docs/architecture.md`. `serving` contains the external vLLM launch/probe CLI and HTTP streaming client; see `docs/serving.md`. `benchmark` contains deterministic plan preparation, one-point closed-loop measurement, raw-data metric replay, and sequential/paired campaign orchestration; see `docs/benchmarking.md` and `docs/campaigns.md`. `registry`, `telemetry`, and `storage` are reserved namespaces. Qualification evidence lives in `qualification/`. CPU containers use `compose.yaml`; `compose.gpu.yaml` is a separate opt-in Linux GPU profile. Normative links in `docs/` reuse the implementation pack's canonical documents.
 
 ## Build, Test, and Development Commands
 

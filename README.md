@@ -7,8 +7,9 @@ Reproducible LLM serving experiments and GPU performance evidence.
 The repository contains an installable Python 3.12 package, a health endpoint,
 a synthetic streaming upstream, versioned schemas, environment settings,
 a reusable HTTP streaming client, explicit vLLM launch/probe commands, runtime
-manifests, a direct closed-loop measurement runner, CPU tests, Docker Compose, and CPU CI.
-Campaign orchestration, gateway forwarding, database imports, telemetry, dashboards,
+manifests, direct closed-loop measurement and sequential/paired campaign CLIs, CPU
+tests, Docker Compose, and CPU CI.
+Gateway forwarding, database imports, telemetry, dashboards,
 regression evaluation, and the portfolio Kernel Lab are later implementation stages.
 
 The authoritative [design](docs/PROJECT_DESIGN_DOCUMENT.md) and
@@ -119,13 +120,16 @@ T4 smoke; the preserved 00B evidence has not been rerun by stage 03.
 
 ## Measurement and limits
 
+See [campaigns](docs/campaigns.md) for sequential points/repetitions, paired runtime
+handoffs, frozen inputs, and interruption behavior.
 See [direct measurement](docs/benchmarking.md) for copyable CPU/GPU commands,
 pre-tokenized plans, one-point runs, artifact replay, and interruption behavior.
 The runner uses closed-loop external HTTP, monotone client timing,
 server usage tokens, and canonical JSON artifacts. SSE events are not tokens;
 `client_tpot_estimate_ms` is a client reception estimate. PostgreSQL will index
-artifacts without becoming a campaign dependency. Campaign orchestration and
-policy evaluation remain later stages; individual run artifacts already use the canonical schemas and can be recalculated from raw data.
+artifacts without becoming a campaign dependency. Campaigns preserve individual run
+artifacts and their coverage; policy evaluation remains stage 10. Raw records allow
+metrics to be recalculated independently.
 
 Current GPU evidence consists of correctness and functional smokes, without SLO,
 p99, throughput, TP speedup, or quantization speedup certification. Runtime KV dtype
