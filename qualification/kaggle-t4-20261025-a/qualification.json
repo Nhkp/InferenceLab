@@ -1,0 +1,61 @@
+{
+  "qualification_id": "kaggle-t4-20261025-a",
+  "qualification_complete": false,
+  "reference_hardware_access": "UNAVAILABLE",
+  "single_gpu_fp16_vllm": "NOT_TESTED",
+  "streaming": "NOT_TESTED",
+  "torch_compile": "NOT_TESTED",
+  "triton": "NOT_TESTED",
+  "tp2": "NOT_TESTED",
+  "awq": "NOT_TESTED",
+  "reasons": {
+    "single_gpu_fp16_vllm": "Reference Kaggle/T4 hardware is inaccessible in this session; no GPU generation or kernel execution attempted.",
+    "streaming": "Reference Kaggle/T4 hardware is inaccessible in this session; no GPU generation or kernel execution attempted.",
+    "torch_compile": "Reference Kaggle/T4 hardware is inaccessible in this session; no GPU generation or kernel execution attempted.",
+    "triton": "Reference Kaggle/T4 hardware is inaccessible in this session; no GPU generation or kernel execution attempted.",
+    "tp2": "Reference Kaggle/T4 hardware is inaccessible in this session; no GPU generation or kernel execution attempted.",
+    "awq": "Reference Kaggle/T4 hardware is inaccessible in this session; no GPU generation or kernel execution attempted."
+  },
+  "validated_versions": {},
+  "observed_versions": {
+    "torch": null,
+    "vllm": null,
+    "triton": null,
+    "transformers": null
+  },
+  "model": {
+    "repo_id": "Qwen/Qwen2.5-3B-Instruct",
+    "revision": null,
+    "tokenizer_revision": null,
+    "reason": "Candidate from PDD; no checkpoint resolved or downloaded because reference GPU access is unavailable."
+  },
+  "metrics": {
+    "client_ttft_ms": {
+      "status": "NOT_TESTED",
+      "value": null,
+      "reason": "No real streaming response, monotone timestamps, or server token usage captured."
+    },
+    "client_e2e_ms": {
+      "status": "NOT_TESTED",
+      "value": null,
+      "reason": "No real streaming response, monotone timestamps, or server token usage captured."
+    },
+    "client_tpot_estimate_ms": {
+      "status": "NOT_TESTED",
+      "value": null,
+      "reason": "No real streaming response, monotone timestamps, or server token usage captured."
+    }
+  },
+  "timestamps": {
+    "request_start_ns": null,
+    "first_content_ns": null,
+    "last_content_ns": null,
+    "terminal_ns": null
+  },
+  "limitations": [
+    "Qualification ID records an unavailable attempt, not proof of execution on Kaggle/T4.",
+    "Python metadata remains >=3.14; Python 3.12 candidate was not installed or tested.",
+    "No immutable model/tokenizer revision pinned; no compatible stack certified.",
+    "No dtype, backend, hardware, or model fallback; no performance claims."
+  ]
+}

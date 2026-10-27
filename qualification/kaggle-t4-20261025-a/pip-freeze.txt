@@ -1,0 +1,4 @@
+$ /home/nhkp/dev/InferenceLab/.venv/bin/python -m pip freeze
+/home/nhkp/dev/InferenceLab/.venv/bin/python: No module named pip
+
+$ uv pip freeze --python /home/nhkp/dev/InferenceLab/.venv/bin/python

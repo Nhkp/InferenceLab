@@ -1,0 +1,27 @@
+{
+  "qualification_id": "kaggle-t4-20261025-b",
+  "single_gpu_fp16_vllm": "FAILED",
+  "streaming": "FAILED",
+  "torch_compile": "NOT_TESTED",
+  "triton": "NOT_TESTED",
+  "tp2": "NOT_TESTED",
+  "awq": "NOT_TESTED",
+  "validated_versions": {},
+  "model": {
+    "repo_id": "Qwen/Qwen2.5-3B-Instruct",
+    "revision": "aa8e72537993ba99e69dfaafa59ed015b17504d1",
+    "tokenizer_repo_id": "Qwen/Qwen2.5-3B-Instruct",
+    "tokenizer_revision": "aa8e72537993ba99e69dfaafa59ed015b17504d1",
+    "chat_template_sha256": "2e2d2512cfe46af53dc1eed45368ecaab26ac4461c480e6b69fe571cf0ceaa75"
+  },
+  "qualification_complete": false,
+  "failure": {
+    "qualification_id": "kaggle-t4-20261025-b",
+    "status": "FAILED",
+    "scope": "chunked prefill Triton attention kernel",
+    "shared_memory_required_bytes": 98304,
+    "shared_memory_limit_bytes": 65536
+  },
+  "reason": "Engine crashed in chunked-prefill Triton kernel before any content; no completed stream or calculable metrics.",
+  "remaining_capabilities_reason": "Separate checks were not run under this failed attempt; see qualification c."
+}

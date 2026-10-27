@@ -1,0 +1,4 @@
+$ ['/usr/bin/python3', '-m', 'uv', 'pip', 'check', '--python', '/kaggle/working/qualification/kaggle-t4-20261025-b/.venv/bin/python']
+Using Python 3.12.12 environment at: qualification/kaggle-t4-20261025-b/.venv
+Checked 157 packages in 2ms
+All installed packages are compatible

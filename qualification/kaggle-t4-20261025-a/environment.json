@@ -1,0 +1,56 @@
+{
+  "qualification_id": "kaggle-t4-20261025-a",
+  "captured_at_utc": "2026-10-25T15:22:51.150922+00:00",
+  "execution_profile": "local host; not an observed Kaggle session",
+  "python": {
+    "version": "3.14.4",
+    "executable": "/home/nhkp/dev/InferenceLab/.venv/bin/python",
+    "first_candidate": "3.12",
+    "candidate_available": false
+  },
+  "os": "Linux-6.8.0-138-generic-x86_64-with-glibc2.35",
+  "cpu": "x86_64",
+  "gpu": {
+    "device_nodes": [],
+    "nvidia_pci_devices": [],
+    "present_count": null,
+    "visible_count": null,
+    "used_count": 0,
+    "names": null,
+    "vram_per_gpu": null,
+    "compute_capability": null,
+    "reason": "No NVIDIA device nodes or nvidia-smi available; counts and hardware properties cannot be certified from this session."
+  },
+  "nvidia_driver": null,
+  "driver_supported_cuda": null,
+  "pytorch_cuda_runtime": null,
+  "cuda_toolkit": null,
+  "nvcc_path": null,
+  "cuda_reason": "No accessible NVIDIA runtime; PyTorch is not installed.",
+  "installed_package_versions": {
+    "torch": null,
+    "vllm": null,
+    "triton": null,
+    "transformers": null
+  },
+  "git_sha": "1b57fb29b54d3c74a441a8b0fa06dfd10b22877a",
+  "git_status_at_capture": "?? AGENTS.md\n?? inference_lab_codex_prompts_v5_1/\n?? qualification/\n",
+  "model": {
+    "repo_id": "Qwen/Qwen2.5-3B-Instruct",
+    "revision": null,
+    "tokenizer_revision": null,
+    "reason": "Candidate from PDD; no checkpoint resolved or downloaded because reference GPU access is unavailable."
+  },
+  "expected_reference": {
+    "platform": "Kaggle",
+    "gpu": "NVIDIA Tesla T4",
+    "compute_capability": "7.5",
+    "nominal_vram_gb_per_gpu": 16,
+    "baseline_visible_devices": "0",
+    "dtype": "float16",
+    "tensor_parallel_size": 1,
+    "tp2_visible_devices": "0,1"
+  },
+  "attention_backend": null,
+  "attention_backend_reason": "No vLLM server launched; backend not selected or validated."
+}

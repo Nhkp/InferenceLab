@@ -1,0 +1,4 @@
+NOT_TESTED: No server command executed. Reference Kaggle/T4 unavailable.
+Required baseline: CUDA_VISIBLE_DEVICES=0; tensor_parallel_size=1; dtype=float16.
+Required TP2: CUDA_VISIBLE_DEVICES=0,1; tensor_parallel_size=2; same checkpoint and dtype=float16.
+No immutable revision, vLLM version, or attention backend qualified; launch command is deliberately unresolved.

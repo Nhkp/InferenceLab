@@ -1,0 +1,25 @@
+{
+  "qualification_id": "kaggle-t4-20261025-b",
+  "python": "3.12.12",
+  "os": "Linux-6.18.55+-x86_64-with-glibc2.39",
+  "versions": {
+    "torch": "2.8.0",
+    "vllm": "0.10.2",
+    "triton": "3.4.0",
+    "transformers": "4.55.2"
+  },
+  "pytorch_cuda_runtime": "12.8",
+  "visible_devices": "0",
+  "gpu_visible_count": 1,
+  "gpus": [
+    {
+      "index": 0,
+      "name": "Tesla T4",
+      "vram_bytes": 15636037632,
+      "compute_capability": [
+        7,
+        5
+      ]
+    }
+  ]
+}

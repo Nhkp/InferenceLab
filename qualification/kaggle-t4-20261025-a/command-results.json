@@ -1,0 +1,63 @@
+[
+  {
+    "command": [
+      "nvidia-smi"
+    ],
+    "returncode": null,
+    "stdout": "",
+    "stderr": "[Errno 2] No such file or directory: 'nvidia-smi'"
+  },
+  {
+    "command": [
+      "nvidia-smi",
+      "topo",
+      "-m"
+    ],
+    "returncode": null,
+    "stdout": "",
+    "stderr": "[Errno 2] No such file or directory: 'nvidia-smi'"
+  },
+  {
+    "command": [
+      "/home/nhkp/dev/InferenceLab/.venv/bin/python",
+      "-m",
+      "pip",
+      "freeze"
+    ],
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "/home/nhkp/dev/InferenceLab/.venv/bin/python: No module named pip\n"
+  },
+  {
+    "command": [
+      "uv",
+      "pip",
+      "freeze",
+      "--python",
+      "/home/nhkp/dev/InferenceLab/.venv/bin/python"
+    ],
+    "returncode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "git",
+      "rev-parse",
+      "HEAD"
+    ],
+    "returncode": 0,
+    "stdout": "1b57fb29b54d3c74a441a8b0fa06dfd10b22877a\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "git",
+      "status",
+      "--short"
+    ],
+    "returncode": 0,
+    "stdout": "?? AGENTS.md\n?? inference_lab_codex_prompts_v5_1/\n?? qualification/\n",
+    "stderr": ""
+  }
+]

@@ -1,0 +1,30 @@
+{
+  "status": "FAILED",
+  "request_start_ns": 3109498772913,
+  "first_content_ns": null,
+  "last_content_ns": null,
+  "terminal_ns": 3140879674361,
+  "content_events": 0,
+  "usage": null,
+  "token_count_source": "server_usage",
+  "finish_reason": null,
+  "done_received": false,
+  "error": "SocketTimeoutError: Timeout on reading data from socket",
+  "metrics": {
+    "client_ttft_ms": {
+      "value": null,
+      "unit": "ms",
+      "reason": "Successful stream with required data not established."
+    },
+    "client_e2e_ms": {
+      "value": null,
+      "unit": "ms",
+      "reason": "Successful stream with required data not established."
+    },
+    "client_tpot_estimate_ms": {
+      "value": null,
+      "unit": "ms",
+      "reason": "Successful stream with required data not established."
+    }
+  }
+}

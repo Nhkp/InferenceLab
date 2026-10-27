@@ -1,0 +1,5 @@
+vllm==0.10.2
+torch==2.8.0
+triton==3.4.0
+transformers==4.55.2
+xformers==0.0.32.post1
