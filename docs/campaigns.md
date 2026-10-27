@@ -135,3 +135,11 @@ handoff, and **130** for SIGINT. These are execution statuses, not SLO gate verd
 All artifacts remain `published=false`; no performance certification, p99 precision,
 TP/AWQ speedup or regression PASS follows. GPU campaigns and real cancellation/drain
 remain **NOT_TESTED** locally; the CPU tests exercise orchestration only.
+
+## Evaluate a completed campaign
+
+Stage 10 adds [offline regression gates](regression-gates.md). For a paired export,
+pass the same output directory as both `--baseline` and `--candidate`; the gate
+selects each recorded condition and verifies its raw evidence. Campaign completion
+remains separate from a policy verdict. Synthetic comparisons cannot certify GPU
+performance, and the gate does not promote artifacts to published status.

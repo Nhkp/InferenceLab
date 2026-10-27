@@ -1,5 +1,5 @@
 # Synthetic CPU policy fixture only. Thresholds are uncalibrated examples.
-# Stage 09 stores this policy; it does not evaluate any gate.
+# Stages 09/10 freeze and evaluate this fixture; it cannot certify GPU performance.
 schema_version: '1.0'
 policy_id: mock-paired-uncalibrated
 workload_id: mock-v1

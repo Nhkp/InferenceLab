@@ -37,8 +37,7 @@ ownership; it does not execute GPU work. See [serving](serving.md) for separate 
 
 The mock performs no tokenization, model download, or inference. Its counters are
 explicit synthetic fixtures. Gateway forwarding, actual GPU engine drain,
-database behavior, and performance gates are
-not implemented or tested at this stage.
+and database behavior are not implemented or tested at this stage.
 
 There are currently no pytest GPU tests. A future `pytest -m gpu` run with no
 selected checks is not validation. The real GPU evidence is in
@@ -60,4 +59,12 @@ paired AB/BA order, manual CLI handoffs, calibration snapshots, source-independe
 resume, unchanged session/timeouts, frozen input/result/raw integrity, duplicate
 resume exclusion, runtime/workload mismatch, failed drain/warmup/measurement, and
 incomplete cancellation artifacts. Every campaign uses controlled CPU SSE; real
-GPU execution and gate evaluation are not implied. No database is needed.
+GPU execution is not implied. No database is needed.
+
+Regression gate tests cover all four verdicts, noise-band equality, mixed SLO
+violations, throughput direction, zero/nonfinite baselines, required versus optional
+absence, low sample volume, paired identities, explicit runtime/dependency changes,
+used-GPU topology, schema/hash corruption, raw replay mismatch, and read-only CLI
+reports/exit codes. Native mock exports use clearly synthetic timestamps for
+deterministic verdict fixtures. Calibration guards are CPU checks of recorded
+metadata, not statistical or GPU validation. See [regression gates](regression-gates.md).

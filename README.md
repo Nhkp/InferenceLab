@@ -7,10 +7,10 @@ Reproducible LLM serving experiments and GPU performance evidence.
 The repository contains an installable Python 3.12 package, a health endpoint,
 a synthetic streaming upstream, versioned schemas, environment settings,
 a reusable HTTP streaming client, explicit vLLM launch/probe commands, runtime
-manifests, direct closed-loop measurement and sequential/paired campaign CLIs, CPU
-tests, Docker Compose, and CPU CI.
+manifests, direct closed-loop measurement, sequential/paired campaigns, offline
+regression gates, CPU tests, Docker Compose, and CPU CI.
 Gateway forwarding, database imports, telemetry, dashboards,
-regression evaluation, and the portfolio Kernel Lab are later implementation stages.
+and the portfolio Kernel Lab are later implementation stages.
 
 The authoritative [design](docs/PROJECT_DESIGN_DOCUMENT.md) and
 [benchmark contract](docs/BENCHMARK_CONTRACT.md) define their behavior.
@@ -92,8 +92,8 @@ schema fixtures and an uncalibrated policy.
 uv run --locked python -c 'from pathlib import Path; from inference_lab.config.io import load_experiment; print(load_experiment(Path("experiments/qwen3b-fp16.yaml")).name)'
 ```
 
-This validates configuration without starting a model or campaign. Numerical gates
-and schema-based validation of future campaigns remain later stages.
+This validates configuration without starting a model or campaign. See
+[regression gates](docs/regression-gates.md) to evaluate complete campaign exports.
 
 ## Qualified GPU environment
 
@@ -128,7 +128,8 @@ The runner uses closed-loop external HTTP, monotone client timing,
 server usage tokens, and canonical JSON artifacts. SSE events are not tokens;
 `client_tpot_estimate_ms` is a client reception estimate. PostgreSQL will index
 artifacts without becoming a campaign dependency. Campaigns preserve individual run
-artifacts and their coverage; policy evaluation remains stage 10. Raw records allow
+artifacts and their coverage. Offline [policy evaluation](docs/regression-gates.md)
+validates evidence and returns PASS/FAIL/INCONCLUSIVE/INVALID. Raw records allow
 metrics to be recalculated independently.
 
 Current GPU evidence consists of correctness and functional smokes, without SLO,
