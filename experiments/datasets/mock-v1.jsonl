@@ -1,0 +1,1 @@
+{"dataset_name":"mock-v1","dataset_version":"1","dataset_request_id":"mock-001","synthetic":true,"target_input_tokens":3,"target_output_tokens":5,"messages":[{"role":"user","content":"Public synthetic input."}]}

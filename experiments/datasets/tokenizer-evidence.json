@@ -1,0 +1,41 @@
+{
+  "scope": "CPU tokenization only; no model generation or GPU benchmark",
+  "tokenizer_repo_id": "Qwen/Qwen2.5-3B-Instruct",
+  "tokenizer_revision": "aa8e72537993ba99e69dfaafa59ed015b17504d1",
+  "chat_template_sha256": "2e2d2512cfe46af53dc1eed45368ecaab26ac4461c480e6b69fe571cf0ceaa75",
+  "chat_template_hash_encoding": "UTF-8 JSON string, ensure_ascii=false, sort_keys=true",
+  "template_parameters": {
+    "add_generation_prompt": true
+  },
+  "versions": {
+    "transformers": "4.55.2",
+    "tokenizers": "0.21.4",
+    "jinja2": "3.1.6"
+  },
+  "datasets": {
+    "generation-heavy-v1.jsonl": {
+      "sha256": "fad5d67516ef42a2940c24f01522e96b0f9ef889878e0b4c261c998fec5a7058",
+      "rows": 4,
+      "input_tokens": 128,
+      "output_tokens": 512
+    },
+    "long-context-2048-v1.jsonl": {
+      "sha256": "72b8971ef9045fc84a3f086e59e28cc9da941046fbe205e3fb9e9b6bf31a70db",
+      "rows": 4,
+      "input_tokens": 2048,
+      "output_tokens": 128
+    },
+    "long-context-512-v1.jsonl": {
+      "sha256": "cff7a7415d8eab6eda59d675027921e4a164400727433ee6efd37cf86566b874",
+      "rows": 4,
+      "input_tokens": 512,
+      "output_tokens": 128
+    },
+    "short-chat-v1.jsonl": {
+      "sha256": "d97b7a8b106c295d0ef84ff6e3fa8715fec219b15ee1fba681ad88027c3c910a",
+      "rows": 4,
+      "input_tokens": 128,
+      "output_tokens": 128
+    }
+  }
+}

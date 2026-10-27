@@ -1,0 +1,45 @@
+# Synthetic CPU mock; runtime fields are placeholders, never GPU evidence.
+schema_version: '1.0'
+name: mock-stream-smoke
+model:
+  repo_id: mock-model
+  revision: synthetic
+  tokenizer_repo_id: mock-model
+  tokenizer_revision: synthetic
+  trust_remote_code: false
+runtime:
+  backend: vllm
+  dtype: float16
+  quantization: null
+  tensor_parallel_size: 1
+  max_model_len: 4096
+  max_num_seqs: 32
+  max_num_batched_tokens: 4096
+  gpu_memory_utilization: 0.85
+  kv_cache_dtype: auto
+  enable_prefix_caching: false
+  enable_chunked_prefill: false
+  enforce_eager: true
+target:
+  kind: direct
+  url: http://127.0.0.1:8001/v1/chat/completions
+workload:
+  dataset: experiments/datasets/mock-v1.jsonl
+  load_model: closed_loop
+  concurrency:
+  - 1
+  - 4
+  seed: 42
+generation:
+  stream: true
+  n: 1
+  temperature: 0.0
+  max_tokens: 5
+  ignore_eos: true
+warmup:
+  requests_per_point: 4
+measurement:
+  requests_per_run: 8
+  repetitions: 1
+  purpose: smoke
+policy_file: null

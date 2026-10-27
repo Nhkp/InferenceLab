@@ -1,4 +1,4 @@
-# Configuration template only: synthetic dataset, no campaign or calibration claim.
+# Configuration template only: tokenizer-verified public dataset; no campaign or calibration claim.
 # Chunked prefill explicitly disabled by qualification kaggle-t4-20261025-c.
 schema_version: "1.0"
 name: qwen3b-fp16-reference
@@ -25,7 +25,7 @@ target:
   kind: direct
   url: http://127.0.0.1:8001/v1/chat/completions
 workload:
-  dataset: tests/data/synthetic-dataset.jsonl
+  dataset: experiments/datasets/short-chat-v1.jsonl
   load_model: closed_loop
   concurrency: [1, 4, 8, 16, 32]
   seed: 42
