@@ -453,19 +453,26 @@ class WorkloadEvidence(ContractModel):
     tokenizer_revision: Text
     chat_template_sha256: Sha256
     template_parameters: dict[Text, JsonValue]
-    input_tokens_min: Count
-    input_tokens_max: Count
-    output_tokens_min: Count
-    output_tokens_max: Count
+    input_tokens_min: Count | None
+    input_tokens_max: Count | None
+    output_tokens_min: Count | None
+    output_tokens_max: Count | None
     conformant: StrictBool
+    missing_reasons: dict[Text, Text] = Field(default_factory=dict)
 
     @model_validator(mode="after")
     def ordered_lengths(self) -> Self:
-        if (
-            self.input_tokens_min > self.input_tokens_max
-            or self.output_tokens_min > self.output_tokens_max
+        fields = ("input_tokens_min", "input_tokens_max", "output_tokens_min", "output_tokens_max")
+        if set(self.missing_reasons) != {field for field in fields if getattr(self, field) is None}:
+            raise ValueError("Missing observed lengths require explicit reasons")
+        if self.conformant and self.missing_reasons:
+            raise ValueError("Conformant workloads require observed token lengths")
+        for low, high in (
+            (self.input_tokens_min, self.input_tokens_max),
+            (self.output_tokens_min, self.output_tokens_max),
         ):
-            raise ValueError("Observed token-length ranges must be ordered")
+            if low is not None and high is not None and low > high:
+                raise ValueError("Observed token-length ranges must be ordered")
         return self
 
 
@@ -550,6 +557,8 @@ class ExperimentResult(ExperimentRun):
             if name == "error_rate" and metric.value is not None and metric.value > 1:
                 raise ValueError("error_rate must be a ratio between zero and one")
         if self.workload.conformant:
+            assert self.workload.input_tokens_max is not None
+            assert self.workload.output_tokens_max is not None
             self.config.validate_input_length(self.workload.input_tokens_max)
             if self.workload.output_tokens_max > self.config.generation.max_tokens:
                 raise ValueError("Observed output exceeds requested generation limit")
