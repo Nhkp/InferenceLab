@@ -1,0 +1,35 @@
+# Opt-in Linux GPU host profile, separate from CPU services. No Kaggle Docker assumption.
+services:
+  vllm:
+    profiles: [gpu]
+    build:
+      context: .
+      dockerfile: deploy/docker/Dockerfile.gpu
+    image: inferencelab-gpu:dev
+    # Loopback direct HTTP and host PIDs let nvidia-smi UUIDs be attributed via /proc.
+    network_mode: host
+    pid: host
+    shm_size: 2gb
+    environment:
+      CUDA_VISIBLE_DEVICES: "0"
+      VLLM_USE_V1: "0"
+      VLLM_ATTENTION_BACKEND: XFORMERS
+    command:
+      - serve
+      - /app/experiment.yaml
+      - --output
+      - /app/results/${SERVING_RUN_ID:?Set a fresh SERVING_RUN_ID for each launch}
+    volumes:
+      - ./experiments/qwen3b-fp16.yaml:/app/experiment.yaml:ro
+      - serving-artifacts:/app/results
+      - model-cache:/home/app/.cache/huggingface
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ["0"]
+              capabilities: [gpu]
+volumes:
+  serving-artifacts:
+  model-cache:
