@@ -1,7 +1,66 @@
 [project]
 name = "inferencelab"
 version = "0.1.0"
-description = "Add your description here"
+description = "Reproducible LLM serving experiments and GPU qualification artifacts"
 readme = "README.md"
-requires-python = ">=3.14"
-dependencies = []
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "alembic>=1.13,<2",
+    "fastapi>=0.115,<1",
+    "httpx>=0.28,<0.29",
+    "prometheus-client>=0.21,<1",
+    "psycopg[binary]>=3.2,<4",
+    "pydantic>=2.11,<3",
+    "pydantic-settings>=2.8,<3",
+    "pyyaml>=6,<7",
+    "sqlalchemy>=2.0,<3",
+    "structlog>=25,<27",
+    "uvicorn>=0.35,<1",
+]
+
+[project.optional-dependencies]
+# Qualification kaggle-t4-20261025-c; install only in an isolated GPU environment.
+gpu = [
+    "vllm==0.10.2; sys_platform == 'linux' and platform_machine == 'x86_64'",
+    "torch==2.8.0; sys_platform == 'linux' and platform_machine == 'x86_64'",
+    "triton==3.4.0; sys_platform == 'linux' and platform_machine == 'x86_64'",
+    "transformers==4.55.2; sys_platform == 'linux' and platform_machine == 'x86_64'",
+    "xformers==0.0.32.post1; sys_platform == 'linux' and platform_machine == 'x86_64'",
+]
+
+[dependency-groups]
+dev = ["mypy>=1.15,<2", "pytest>=8.3,<10", "pytest-asyncio>=1,<2", "ruff>=0.12,<1", "types-pyyaml>=6,<7"]
+
+[build-system]
+requires = ["setuptools>=77,<80"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+inference_lab = ["py.typed"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+include = ["src/**/*.py", "tests/**/*.py", "pyproject.toml"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+files = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+addopts = "--strict-markers"
+markers = [
+    "unit: isolated CPU checks",
+    "integration: CPU HTTP/streaming integration",
+    "gpu: explicitly selected real GPU checks",
+    "slow: explicitly selected long-running checks",
+]
