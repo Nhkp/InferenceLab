@@ -1,0 +1,106 @@
+INFO 10-25 20:12:35 [__init__.py:216] Automatically detected platform cuda.
+[1;36m(APIServer pid=1081)[0;0m INFO 10-25 20:12:37 [api_server.py:1896] vLLM API server version 0.10.2
+[1;36m(APIServer pid=1081)[0;0m INFO 10-25 20:12:37 [utils.py:328] non-default args: {'host': '127.0.0.1', 'port': 8001, 'model': 'Qwen/Qwen2.5-3B-Instruct-AWQ', 'tokenizer': 'Qwen/Qwen2.5-3B-Instruct-AWQ', 'dtype': 'float16', 'seed': 42, 'revision': '3559b226e8ce77211e2c1bd7ddfb7686fec4d6dd', 'tokenizer_revision': '3559b226e8ce77211e2c1bd7ddfb7686fec4d6dd', 'max_model_len': 4096, 'quantization': 'awq', 'enforce_eager': True, 'served_model_name': ['qualification-qwen3b'], 'generation_config': 'vllm', 'gpu_memory_utilization': 0.85, 'enable_prefix_caching': False, 'max_num_batched_tokens': 4096, 'max_num_seqs': 32, 'enable_chunked_prefill': False}
+[1;36m(APIServer pid=1081)[0;0m INFO 10-25 20:12:46 [__init__.py:742] Resolved architecture: Qwen2ForCausalLM
+[1;36m(APIServer pid=1081)[0;0m INFO 10-25 20:12:46 [__init__.py:1815] Using max model len 4096
+[1;36m(APIServer pid=1081)[0;0m WARNING 10-25 20:12:48 [_ipex_ops.py:16] Import error msg: No module named 'intel_extension_for_pytorch'
+[1;36m(APIServer pid=1081)[0;0m WARNING 10-25 20:12:48 [__init__.py:1217] awq quantization is not fully optimized yet. The speed can be slower than non-quantized models.
+[1;36m(APIServer pid=1081)[0;0m WARNING 10-25 20:12:48 [cuda.py:103] To see benefits of async output processing, enable CUDA graph. Since, enforce-eager is enabled, async output processor cannot be used
+[1;36m(APIServer pid=1081)[0;0m INFO 10-25 20:12:48 [__init__.py:3400] Cudagraph is disabled under eager mode
+[1;36m(APIServer pid=1081)[0;0m INFO 10-25 20:12:48 [api_server.py:296] Started engine process with PID 1106
+INFO 10-25 20:12:52 [__init__.py:216] Automatically detected platform cuda.
+INFO 10-25 20:12:55 [llm_engine.py:221] Initializing a V0 LLM engine (v0.10.2) with config: model='Qwen/Qwen2.5-3B-Instruct-AWQ', speculative_config=None, tokenizer='Qwen/Qwen2.5-3B-Instruct-AWQ', skip_tokenizer_init=False, tokenizer_mode=auto, revision=3559b226e8ce77211e2c1bd7ddfb7686fec4d6dd, tokenizer_revision=3559b226e8ce77211e2c1bd7ddfb7686fec4d6dd, trust_remote_code=False, dtype=torch.float16, max_seq_len=4096, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, data_parallel_size=1, disable_custom_all_reduce=False, quantization=awq, enforce_eager=True, kv_cache_dtype=auto, device_config=cuda, decoding_config=DecodingConfig(backend='auto', disable_fallback=False, disable_any_whitespace=False, disable_additional_properties=False, reasoning_backend=''), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None), seed=42, served_model_name=qualification-qwen3b, enable_prefix_caching=False, chunked_prefill_enabled=False, use_async_output_proc=False, pooler_config=None, compilation_config={"level":0,"debug_dump_path":"","cache_dir":"","backend":"","custom_ops":[],"splitting_ops":null,"use_inductor":true,"compile_sizes":[],"inductor_compile_config":{"enable_auto_functionalized_v2":false},"inductor_passes":{},"cudagraph_mode":0,"use_cudagraph":true,"cudagraph_num_of_warmups":0,"cudagraph_capture_sizes":[],"cudagraph_copy_inputs":false,"full_cuda_graph":false,"pass_config":{},"max_capture_size":0,"local_cache_dir":null}, use_cached_outputs=True, 
+INFO 10-25 20:12:57 [cuda.py:388] Using XFormers backend.
+[W1025 20:12:58.070676674 ProcessGroupNCCL.cpp:981] Warning: TORCH_NCCL_AVOID_RECORD_STREAMS is the default now, this environment variable is thus deprecated. (function operator())
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+INFO 10-25 20:12:58 [parallel_state.py:1165] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, TP rank 0, EP rank 0
+INFO 10-25 20:12:58 [model_runner.py:1051] Starting to load model Qwen/Qwen2.5-3B-Instruct-AWQ...
+INFO 10-25 20:12:58 [weight_utils.py:348] Using model weights format ['*.safetensors']
+INFO 10-25 20:13:03 [weight_utils.py:369] Time spent downloading weights for Qwen/Qwen2.5-3B-Instruct-AWQ: 5.236505 seconds
+INFO 10-25 20:13:04 [weight_utils.py:406] No model.safetensors.index.json found in remote.
+Loading safetensors checkpoint shards:   0% Completed | 0/1 [00:00<?, ?it/s]
+Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:00<00:00,  1.40it/s]
+Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:00<00:00,  1.40it/s]
+
+INFO 10-25 20:13:04 [default_loader.py:268] Loading weights took 0.73 seconds
+INFO 10-25 20:13:05 [model_runner.py:1083] Model loading took 1.9536 GiB and 6.533785 seconds
+INFO 10-25 20:13:07 [worker.py:290] Memory profiling takes 1.65 seconds
+INFO 10-25 20:13:07 [worker.py:290] the current vLLM instance can use total_gpu_memory (14.56GiB) x gpu_memory_utilization (0.85) = 12.38GiB
+INFO 10-25 20:13:07 [worker.py:290] model weights take 1.95GiB; non_torch_memory takes 0.05GiB; PyTorch activation peak memory takes 0.37GiB; the rest of the memory reserved for KV Cache is 10.01GiB.
+INFO 10-25 20:13:07 [executor_base.py:114] # cuda blocks: 18226, # CPU blocks: 7281
+INFO 10-25 20:13:07 [executor_base.py:119] Maximum concurrency for 4096 tokens per request: 71.20x
+INFO 10-25 20:13:10 [worker.py:467] Free memory on device (14.46/14.56 GiB) on startup. Desired GPU memory utilization is (0.85, 12.38 GiB). Actual usage is 1.95 GiB for weight, 0.37 GiB for peak activation, 0.05 GiB for non-torch memory, and 0.0 GiB for CUDAGraph memory. Replace gpu_memory_utilization config with `--kv-cache-memory=10592922931` to fit into requested memory, or `--kv-cache-memory=12828359168` to fully utilize gpu memory. Current kv cache memory in use is 10750209331 bytes.
+INFO 10-25 20:13:10 [llm_engine.py:420] init engine (profile, create kv cache, warmup model) took 5.11 seconds
+[1;36m(APIServer pid=1081)[0;0m INFO 10-25 20:13:15 [api_server.py:1692] Supported_tasks: ['generate']
+[1;36m(APIServer pid=1081)[0;0m INFO 10-25 20:13:15 [api_server.py:1971] Starting vLLM API server 0 on http://127.0.0.1:8001
+[1;36m(APIServer pid=1081)[0;0m INFO 10-25 20:13:15 [launcher.py:36] Available routes are:
+[1;36m(APIServer pid=1081)[0;0m INFO 10-25 20:13:15 [launcher.py:44] Route: /openapi.json, Methods: GET, HEAD
+[1;36m(APIServer pid=1081)[0;0m INFO 10-25 20:13:15 [launcher.py:44] Route: /docs, Methods: GET, HEAD
+[1;36m(APIServer pid=1081)[0;0m INFO 10-25 20:13:15 [launcher.py:44] Route: /docs/oauth2-redirect, Methods: GET, HEAD
+[1;36m(APIServer pid=1081)[0;0m INFO 10-25 20:13:15 [launcher.py:44] Route: /redoc, Methods: GET, HEAD
+[1;36m(APIServer pid=1081)[0;0m INFO 10-25 20:13:15 [launcher.py:44] Route: /metrics, Methods: GET
+[1;36m(APIServer pid=1081)[0;0m INFO:     Started server process [1081]
+[1;36m(APIServer pid=1081)[0;0m INFO:     Waiting for application startup.
+[1;36m(APIServer pid=1081)[0;0m INFO:     Application startup complete.
+[1;36m(APIServer pid=1081)[0;0m INFO:     127.0.0.1:45656 - "GET /health HTTP/1.1" 200 OK
+[1;36m(APIServer pid=1081)[0;0m INFO 10-25 20:13:18 [chat_utils.py:538] Detected the chat template content format to be 'string'. You can set `--chat-template-content-format` to override this.
+[1;36m(APIServer pid=1081)[0;0m INFO:     127.0.0.1:45662 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+INFO 10-25 20:13:18 [metrics.py:398] Avg prompt throughput: 5.5 tokens/s, Avg generation throughput: 0.1 tokens/s, Running: 1 reqs, Swapped: 0 reqs, Pending: 0 reqs, GPU KV cache usage: 0.0%, CPU KV cache usage: 0.0%.
+[1;36m(APIServer pid=1081)[0;0m WARNING 10-25 20:13:21 [launcher.py:98] port 8001 is used by process psutil.Process(pid=1081, name='python', status='running') launched with command:
+[1;36m(APIServer pid=1081)[0;0m WARNING 10-25 20:13:21 [launcher.py:98] /kaggle/working/qualification/kaggle-t4-20261025-b/.venv/bin/python -m vllm.entrypoints.openai.api_server --host 127.0.0.1 --port 8001 --model Qwen/Qwen2.5-3B-Instruct-AWQ --revision 3559b226e8ce77211e2c1bd7ddfb7686fec4d6dd --tokenizer Qwen/Qwen2.5-3B-Instruct-AWQ --tokenizer-revision 3559b226e8ce77211e2c1bd7ddfb7686fec4d6dd --served-model-name qualification-qwen3b --dtype float16 --tensor-parallel-size 1 --max-model-len 4096 --max-num-seqs 32 --max-num-batched-tokens 4096 --gpu-memory-utilization 0.85 --kv-cache-dtype auto --no-enable-prefix-caching --no-enable-chunked-prefill --enforce-eager --generation-config vllm --seed 42 --no-enable-log-requests --no-enable-log-outputs --quantization awq
+[1;36m(APIServer pid=1081)[0;0m INFO 10-25 20:13:21 [launcher.py:101] Shutting down FastAPI HTTP server.
+Exception ignored in atexit callback: <function shutdown at 0x7bcc4eb60540>
+Traceback (most recent call last):
+  File "/kaggle/working/qualification/kaggle-t4-20261025-b/.venv/lib/python3.12/site-packages/ray/_private/client_mode_hook.py", line 134, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/kaggle/working/qualification/kaggle-t4-20261025-b/.venv/lib/python3.12/site-packages/ray/_private/worker.py", line 1173, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/kaggle/working/qualification/kaggle-t4-20261025-b/.venv/lib/python3.12/site-packages/ray/_private/worker.py", line 2118, in shutdown
+    from ray.dag.compiled_dag_node import _shutdown_all_compiled_dags
+  File "/kaggle/working/qualification/kaggle-t4-20261025-b/.venv/lib/python3.12/site-packages/ray/dag/__init__.py", line 1, in <module>
+    from ray.dag.dag_node import DAGNode
+  File "/kaggle/working/qualification/kaggle-t4-20261025-b/.venv/lib/python3.12/site-packages/ray/dag/dag_node.py", line 20, in <module>
+    from ray.dag.compiled_dag_node import build_compiled_dag_from_ray_dag
+  File "/kaggle/working/qualification/kaggle-t4-20261025-b/.venv/lib/python3.12/site-packages/ray/dag/compiled_dag_node.py", line 38, in <module>
+    from ray.dag.dag_operation_future import DAGOperationFuture, GPUFuture, ResolvedFuture
+  File "/kaggle/working/qualification/kaggle-t4-20261025-b/.venv/lib/python3.12/site-packages/ray/dag/dag_operation_future.py", line 4, in <module>
+    from ray.experimental.channel.accelerator_context import AcceleratorContext
+  File "/kaggle/working/qualification/kaggle-t4-20261025-b/.venv/lib/python3.12/site-packages/ray/experimental/channel/__init__.py", line 17, in <module>
+    from ray.experimental.channel.shared_memory_channel import (
+  File "/kaggle/working/qualification/kaggle-t4-20261025-b/.venv/lib/python3.12/site-packages/ray/experimental/channel/shared_memory_channel.py", line 155, in <module>
+    class Channel(ChannelInterface):
+  File "/kaggle/working/qualification/kaggle-t4-20261025-b/.venv/lib/python3.12/site-packages/ray/experimental/channel/shared_memory_channel.py", line 166, in Channel
+    _writer_node_id: Optional["ray.NodeID"] = None,
+                     ~~~~~~~~^^^^^^^^^^^^^^
+  File "/root/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/lib/python3.12/typing.py", line 395, in inner
+    return _caches[func](*args, **kwds)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/lib/python3.12/typing.py", line 517, in __getitem__
+    return self._getitem(self, parameters)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/lib/python3.12/typing.py", line 750, in Optional
+    arg = _type_check(parameters, f"{self} requires a single type.")
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/lib/python3.12/typing.py", line 193, in _type_check
+    arg = _type_convert(arg, module=module, allow_special_forms=allow_special_forms)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/lib/python3.12/typing.py", line 171, in _type_convert
+    return ForwardRef(arg, module=module, is_class=allow_special_forms)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/lib/python3.12/typing.py", line 904, in __init__
+    code = compile(arg_to_compile, '<string>', 'eval')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/kaggle/working/qualification/kaggle-t4-20261025-b/.venv/lib/python3.12/site-packages/vllm/engine/multiprocessing/engine.py", line 446, in signal_handler
+    raise KeyboardInterrupt("MQLLMEngine terminated")
+KeyboardInterrupt: MQLLMEngine terminated
+[rank0]:[W1025 20:13:22.316180920 ProcessGroupNCCL.cpp:1538] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+[1;36m(APIServer pid=1081)[0;0m INFO:     Shutting down
+[1;36m(APIServer pid=1081)[0;0m INFO:     Waiting for application shutdown.
+[1;36m(APIServer pid=1081)[0;0m INFO:     Application shutdown complete.

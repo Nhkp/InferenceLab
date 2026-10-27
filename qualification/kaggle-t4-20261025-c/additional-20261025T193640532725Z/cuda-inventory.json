@@ -1,0 +1,1 @@
+{"gpus": [{"index": 0, "name": "Tesla T4", "compute_capability": [7, 5], "vram_bytes": 15636037632}, {"index": 1, "name": "Tesla T4", "compute_capability": [7, 5], "vram_bytes": 15636037632}], "cuda": "12.8"}

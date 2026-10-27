@@ -1,0 +1,13 @@
+$ /kaggle/working/qualification/kaggle-t4-20261025-b/.venv/bin/python -c '
+import torch, json, sys
+from pathlib import Path
+gpus = [{
+    "index": i,
+    "name": torch.cuda.get_device_name(i),
+    "compute_capability": list(torch.cuda.get_device_capability(i)),
+    "vram_bytes": torch.cuda.get_device_properties(i).total_memory,
+} for i in range(torch.cuda.device_count())]
+Path(sys.argv[1]).write_text(
+    json.dumps({"gpus": gpus, "cuda": torch.version.cuda})
+)
+' /kaggle/working/qualification/kaggle-t4-20261025-c/additional-20261025T193640532725Z/cuda-inventory.json

@@ -1,0 +1,25 @@
+{
+  "evidence": "server-log.txt",
+  "engine": "V0",
+  "attention_backend": "XFORMERS",
+  "dtype": "float16",
+  "tensor_parallel_size": 1,
+  "quantization": null,
+  "enable_chunked_prefill": false,
+  "enable_prefix_caching": false,
+  "enforce_eager": true,
+  "model": {
+    "repo_id": "Qwen/Qwen2.5-3B-Instruct",
+    "revision": "aa8e72537993ba99e69dfaafa59ed015b17504d1",
+    "tokenizer_repo_id": "Qwen/Qwen2.5-3B-Instruct",
+    "tokenizer_revision": "aa8e72537993ba99e69dfaafa59ed015b17504d1",
+    "chat_template_sha256": "2e2d2512cfe46af53dc1eed45368ecaab26ac4461c480e6b69fe571cf0ceaa75"
+  },
+  "gpu_used_indices": [
+    0
+  ],
+  "launch_command_evidence": "server-command.txt",
+  "kv_cache_dtype": "auto",
+  "kv_cache_resolved_dtype": null,
+  "kv_cache_resolved_dtype_reason": "Startup logs record auto; not independently introspected."
+}

@@ -1,0 +1,2 @@
+$ /kaggle/working/qualification/kaggle-t4-20261025-b/.venv/bin/python -u /kaggle/working/qualification/kaggle-t4-20261025-c/additional-20261025T193640532725Z/gpu_checks.py torch_compile
+torch_compile: VALIDATED; correctness only, no performance measurement

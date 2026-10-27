@@ -1,0 +1,63 @@
+{
+  "qualification_id": "kaggle-t4-20261025-c",
+  "captured_at_utc": "2026-10-25T19:36:45.740149+00:00",
+  "python": "3.12.12",
+  "os": "Linux-6.18.55+-x86_64-with-glibc2.39",
+  "cpu_count": 4,
+  "ram": [
+    "MemTotal:       32869296 kB"
+  ],
+  "gpus_visible_to_inventory": [
+    {
+      "index": 0,
+      "name": "Tesla T4",
+      "compute_capability": [
+        7,
+        5
+      ],
+      "vram_bytes": 15636037632
+    },
+    {
+      "index": 1,
+      "name": "Tesla T4",
+      "compute_capability": [
+        7,
+        5
+      ],
+      "vram_bytes": 15636037632
+    }
+  ],
+  "inventory_cuda_visible_devices": null,
+  "pytorch_cuda_runtime": "12.8",
+  "versions": {
+    "torch": "2.8.0",
+    "vllm": "0.10.2",
+    "triton": "3.4.0",
+    "transformers": "4.55.2",
+    "xformers": "0.0.32.post1"
+  },
+  "model": {
+    "repo_id": "Qwen/Qwen2.5-3B-Instruct",
+    "revision": "aa8e72537993ba99e69dfaafa59ed015b17504d1",
+    "tokenizer_repo_id": "Qwen/Qwen2.5-3B-Instruct",
+    "tokenizer_revision": "aa8e72537993ba99e69dfaafa59ed015b17504d1",
+    "chat_template_sha256": "2e2d2512cfe46af53dc1eed45368ecaab26ac4461c480e6b69fe571cf0ceaa75"
+  },
+  "baseline_used_gpu_indices": [
+    0
+  ],
+  "tp2_used_gpu_indices": [
+    0,
+    1
+  ],
+  "gpu_uuid_driver_and_memory_evidence": "additional-20261025T193640532725Z/gpu-inventory.csv",
+  "driver_supported_cuda_evidence": "nvidia-smi.txt",
+  "cuda_toolkit": "additional-20261025T193640532725Z/nvcc-version.txt",
+  "git_sha": null,
+  "git_sha_reason": "Repository is not mounted in the Kaggle notebook; script SHA256 is preserved instead.",
+  "script_sha256": "ee584ccc29d939bbce3ffcd1a947dd8e3f37740d02f8ab7db612803e5e933671",
+  "gpu_present_count": 2,
+  "gpu_visible_count": 2,
+  "nvidia_driver_version": "580.178.04",
+  "driver_supported_cuda": "13.0"
+}

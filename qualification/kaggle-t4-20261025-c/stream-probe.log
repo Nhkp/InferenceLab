@@ -1,0 +1,33 @@
+{
+  "status": "VALIDATED",
+  "request_start_ns": 3366859232594,
+  "first_content_ns": 3368249732774,
+  "last_content_ns": 3372028194259,
+  "terminal_ns": 3372028441325,
+  "content_events": 128,
+  "usage": {
+    "prompt_tokens": 41,
+    "total_tokens": 169,
+    "completion_tokens": 128
+  },
+  "token_count_source": "server_usage",
+  "finish_reason": "length",
+  "done_received": true,
+  "metrics": {
+    "client_ttft_ms": {
+      "value": 1390.50018,
+      "unit": "ms",
+      "reason": null
+    },
+    "client_e2e_ms": {
+      "value": 5169.208731,
+      "unit": "ms",
+      "reason": null
+    },
+    "client_tpot_estimate_ms": {
+      "value": 29.75166523622047,
+      "unit": "ms",
+      "reason": null
+    }
+  }
+}

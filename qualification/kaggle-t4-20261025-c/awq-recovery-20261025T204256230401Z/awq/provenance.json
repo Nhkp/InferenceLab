@@ -1,0 +1,27 @@
+{
+  "source_model": {
+    "repo_id": "Qwen/Qwen2.5-3B-Instruct",
+    "revision": "aa8e72537993ba99e69dfaafa59ed015b17504d1",
+    "tokenizer_repo_id": "Qwen/Qwen2.5-3B-Instruct",
+    "tokenizer_revision": "aa8e72537993ba99e69dfaafa59ed015b17504d1",
+    "chat_template_sha256": "2e2d2512cfe46af53dc1eed45368ecaab26ac4461c480e6b69fe571cf0ceaa75"
+  },
+  "quantized_model": {
+    "repo_id": "Qwen/Qwen2.5-3B-Instruct-AWQ",
+    "revision": "3559b226e8ce77211e2c1bd7ddfb7686fec4d6dd",
+    "tokenizer_revision": "3559b226e8ce77211e2c1bd7ddfb7686fec4d6dd",
+    "base_model": "Qwen/Qwen2.5-3B-Instruct"
+  },
+  "quantization_config": {
+    "bits": 4,
+    "group_size": 128,
+    "modules_to_not_convert": null,
+    "quant_method": "awq",
+    "version": "gemm",
+    "zero_point": true
+  },
+  "same_architecture": true,
+  "same_vocabulary": true,
+  "same_chat_template": true,
+  "limitation": "Publisher identifies the source repo but does not pin its original quantization-source commit."
+}

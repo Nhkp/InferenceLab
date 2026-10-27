@@ -1,0 +1,4 @@
+$ nvidia-smi --query-gpu=index,uuid,name,memory.total,driver_version --format=csv
+index, uuid, name, memory.total [MiB], driver_version
+0, GPU-1a17fd04-82ad-22eb-d7ac-4840ae5a8902, Tesla T4, 15360 MiB, 580.178.04
+1, GPU-edb18f77-13a2-9544-a36f-3283edb44510, Tesla T4, 15360 MiB, 580.178.04

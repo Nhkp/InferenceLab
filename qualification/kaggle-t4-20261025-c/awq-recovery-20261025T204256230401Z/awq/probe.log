@@ -1,0 +1,34 @@
+$ /kaggle/working/qualification/kaggle-t4-20261025-b/.venv/bin/python -u /kaggle/working/qualification/kaggle-t4-20261025-c/stream-probe.py /kaggle/working/qualification/kaggle-t4-20261025-c/awq-recovery-20261025T204256230401Z/awq
+{
+  "status": "VALIDATED",
+  "request_start_ns": 8517598908834,
+  "first_content_ns": 8519027651348,
+  "last_content_ns": 8521888466637,
+  "terminal_ns": 8521888686261,
+  "content_events": 128,
+  "usage": {
+    "prompt_tokens": 41,
+    "total_tokens": 169,
+    "completion_tokens": 128
+  },
+  "token_count_source": "server_usage",
+  "finish_reason": "length",
+  "done_received": true,
+  "metrics": {
+    "client_ttft_ms": {
+      "value": 1428.742514,
+      "unit": "ms",
+      "reason": null
+    },
+    "client_e2e_ms": {
+      "value": 4289.777427,
+      "unit": "ms",
+      "reason": null
+    },
+    "client_tpot_estimate_ms": {
+      "value": 22.526104637795278,
+      "unit": "ms",
+      "reason": null
+    }
+  }
+}

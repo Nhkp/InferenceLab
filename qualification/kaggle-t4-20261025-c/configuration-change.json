@@ -1,0 +1,16 @@
+{
+  "qualification_id": "kaggle-t4-20261025-c",
+  "previous_qualification_id": "kaggle-t4-20261025-b",
+  "environment_reused_from": "/kaggle/working/qualification/kaggle-t4-20261025-b/.venv",
+  "changes": {
+    "enable_chunked_prefill": {
+      "before": true,
+      "after": false
+    }
+  },
+  "previous_failure": {
+    "kernel": "vllm.attention.ops.prefix_prefill",
+    "required_shared_memory_bytes": 98304,
+    "hardware_limit_bytes": 65536
+  }
+}

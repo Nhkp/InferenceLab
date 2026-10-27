@@ -1,0 +1,76 @@
+{
+  "qualification_id": "kaggle-t4-20261025-c",
+  "single_gpu_fp16_vllm": "VALIDATED",
+  "streaming": "VALIDATED",
+  "torch_compile": "VALIDATED",
+  "triton": "VALIDATED",
+  "tp2": "VALIDATED",
+  "awq": "VALIDATED",
+  "reasons": {
+    "single_gpu_fp16_vllm": "Baseline startup log and successful real streaming generation; chunked prefill disabled.",
+    "streaming": "Baseline startup log and successful real streaming generation; chunked prefill disabled.",
+    "torch_compile": "Executed on T4 and passed numerical correctness checks.",
+    "triton": "Scoped to minimal add and small RMSNorm; the chunked-prefill attention kernel in attempt b remains FAILED.",
+    "tp2": "Same FP16 checkpoint, two T4s, TP=2, mp executor, real streaming generation; no speedup claim.",
+    "awq": "Publisher-linked same-source AWQ, matching tokenizer/template, effective quantization=awq, FP16 activations, TP=1, real stream; no performance claim.",
+    "triton_minimal": "Executed on T4 and passed numerical correctness checks.",
+    "triton_rmsnorm": "Executed on T4 and passed numerical correctness checks."
+  },
+  "model": {
+    "repo_id": "Qwen/Qwen2.5-3B-Instruct",
+    "revision": "aa8e72537993ba99e69dfaafa59ed015b17504d1",
+    "tokenizer_repo_id": "Qwen/Qwen2.5-3B-Instruct",
+    "tokenizer_revision": "aa8e72537993ba99e69dfaafa59ed015b17504d1",
+    "chat_template_sha256": "2e2d2512cfe46af53dc1eed45368ecaab26ac4461c480e6b69fe571cf0ceaa75"
+  },
+  "validated_versions": {
+    "python": "3.12.12",
+    "torch": "2.8.0",
+    "vllm": "0.10.2",
+    "triton": "3.4.0",
+    "transformers": "4.55.2",
+    "xformers": "0.0.32.post1"
+  },
+  "evidence": {
+    "torch_compile": "additional-20261025T193640532725Z/torch_compile.log",
+    "triton_minimal": "additional-20261025T193640532725Z/triton_minimal.log",
+    "triton_rmsnorm": "additional-20261025T193640532725Z/triton_rmsnorm.log",
+    "tp2": "additional-20261025T193640532725Z/tp2",
+    "awq": "awq-recovery-20261025T201222582055Z/awq"
+  },
+  "qualification_complete": true,
+  "baseline_metrics": {
+    "client_ttft_ms": {
+      "value": 1390.50018,
+      "unit": "ms",
+      "reason": null
+    },
+    "client_e2e_ms": {
+      "value": 5169.208731,
+      "unit": "ms",
+      "reason": null
+    },
+    "client_tpot_estimate_ms": {
+      "value": 29.75166523622047,
+      "unit": "ms",
+      "reason": null
+    }
+  },
+  "known_failure": {
+    "qualification_id": "kaggle-t4-20261025-b",
+    "status": "FAILED",
+    "scope": "chunked prefill Triton attention kernel",
+    "shared_memory_required_bytes": 98304,
+    "shared_memory_limit_bytes": 65536
+  },
+  "validated_versions_scope": "Baseline serving; individual compile/Triton/TP2/AWQ support is reported separately.",
+  "triton_minimal": "VALIDATED",
+  "triton_rmsnorm": "VALIDATED",
+  "limitations": [
+    "Small correctness and generation smoke checks only; no SLO, p99, or performance certification.",
+    "Chunked prefill enabled failed in attempt b; baseline c explicitly disables it.",
+    "Kernel Lab portfolio implementation and all platform implementation remain unstarted.",
+    "Upstream cancellation/error-path coverage and exact runtime KV dtype introspection remain untested."
+  ],
+  "status_correction": "Prior AWQ=FAILED represented a failed GPU-idle prerequisite, not an AWQ capability failure."
+}

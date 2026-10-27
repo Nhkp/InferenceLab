@@ -1,0 +1,12 @@
+{
+  "environment": {
+    "CUDA_VISIBLE_DEVICES": "0,1",
+    "VLLM_USE_V1": "0",
+    "VLLM_ATTENTION_BACKEND": "XFORMERS"
+  },
+  "expected": {
+    "tp": 2,
+    "revision": "aa8e72537993ba99e69dfaafa59ed015b17504d1",
+    "quantization": "None"
+  }
+}

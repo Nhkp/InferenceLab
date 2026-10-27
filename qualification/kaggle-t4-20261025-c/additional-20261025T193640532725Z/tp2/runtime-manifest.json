@@ -1,0 +1,9 @@
+{
+  "effective_checked_values": {
+    "tp": 2,
+    "revision": "aa8e72537993ba99e69dfaafa59ed015b17504d1",
+    "quantization": "None"
+  },
+  "evidence": "server-log.txt",
+  "visible_devices": "0,1"
+}
