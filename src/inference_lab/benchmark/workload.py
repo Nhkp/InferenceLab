@@ -1,4 +1,4 @@
-"""One closed-loop point/repetition. Campaign orchestration belongs to stage 09."""
+"""One closed-loop point/repetition, shared by standalone and campaign CLIs."""
 
 import argparse
 import asyncio
@@ -29,6 +29,7 @@ from inference_lab.config.schemas import (
     ExperimentConfig,
     ExperimentResult,
     ExperimentRun,
+    RegressionPolicy,
     RequestMeasurement,
     WorkloadEvidence,
 )
@@ -286,6 +287,7 @@ def result_for(
                 "gpu": "raw/gpu.jsonl",
                 "plan": "plan.json",
                 "dataset": "dataset.jsonl",
+                "drain": "drain.json",
             },
         )
     )
@@ -322,6 +324,35 @@ def report(result: ExperimentResult, requests: Sequence[RequestMeasurement]) -> 
     return "\n".join(lines) + "\n"
 
 
+def validate_workload(
+    config: ExperimentConfig,
+    plan: RequestPlan,
+    *,
+    dataset_path: Path | None = None,
+    policy_path: Path | None = None,
+) -> RegressionPolicy | None:
+    """Validate frozen input copies without changing their canonical configuration."""
+    validate_plan(plan, config, dataset_path or Path(config.workload.dataset))
+    if not plan.synthetic:
+        config.model.require_immutable()
+    if policy_path is not None and config.policy_file is None:
+        raise ValueError("Policy snapshots require the canonical policy_file reference")
+    policy = (
+        load_policy(policy_path or Path(config.policy_file))
+        if config.policy_file is not None
+        else None
+    )
+    if policy is not None:
+        policy.validate_experiment(config)
+    if policy is not None and policy.workload_id != plan.dataset_name:
+        raise ValueError("Policy workload_id differs from the prepared dataset")
+    if not config.generation.stream or config.target.url.host != "127.0.0.1":
+        raise ValueError("This runner requires streaming and co-located loopback HTTP")
+    if config.runtime.enable_prefix_caching:
+        raise ValueError("Reference measurement requires prefix caching disabled")
+    return policy
+
+
 async def run_point(
     run: ExperimentRun,
     plan: RequestPlan,
@@ -329,14 +360,11 @@ async def run_point(
     *,
     manifest_path: Path | None = None,
     settings: Settings | None = None,
+    dataset_path: Path | None = None,
+    policy_path: Path | None = None,
 ) -> ExperimentResult:
     config = run.config
-    validate_plan(plan, config, Path(config.workload.dataset))
-    policy = load_policy(Path(config.policy_file)) if config.policy_file is not None else None
-    if policy is not None and policy.workload_id != plan.dataset_name:
-        raise ValueError("Policy workload_id differs from the prepared dataset")
-    if not config.generation.stream or config.target.url.host != "127.0.0.1":
-        raise ValueError("This runner requires streaming and co-located loopback HTTP")
+    policy = validate_workload(config, plan, dataset_path=dataset_path, policy_path=policy_path)
     if plan.synthetic and manifest_path is not None:
         raise ValueError("Synthetic fixtures cannot use real GPU runtime evidence")
     if not plan.synthetic and manifest_path is None:
@@ -349,9 +377,14 @@ async def run_point(
         yaml.safe_dump(config.model_dump(mode="json"), sort_keys=False)
     )
     (output / "plan.json").write_bytes(encoded(plan))
-    shutil.copyfile(config.workload.dataset, output / "dataset.jsonl")
+    shutil.copyfile(dataset_path or Path(config.workload.dataset), output / "dataset.jsonl")
+    if policy is not None:
+        (output / "policy.json").write_bytes(encoded(policy))
     if manifest_path is not None:
         shutil.copyfile(manifest_path, output / "runtime_manifest.json")
+        shutil.copyfile(
+            manifest_path.parent / "server-process.json", output / "server-process.json"
+        )
         shutil.copyfile(manifest_path.parent / "server.log", output / "server.log")
     else:
         write_json(
@@ -375,7 +408,7 @@ async def run_point(
     interrupted = False
     stop_error = None
     limitations = [
-        "Single point/repetition; no campaign, SLO, p99 certification, speedup or gate.",
+        "One point/repetition; no SLO, p99 certification, speedup or gate verdict.",
         "Client TPOT is a reception estimate; content-event counts are not tokens.",
         "raw/gpu.jsonl is empty: continuous GPU telemetry belongs to its later stage.",
         "Runtime KV dtype and linear kernel remain unknown when not exposed by the manifest.",
@@ -385,6 +418,16 @@ async def run_point(
         limitations.append(
             "Synthetic CPU upstream and token counts; client timings are not GPU performance."
         )
+    drain_checks: dict[str, Any] = {
+        "schema_version": "1.0",
+        "source": "runtime_scheduler_gauges",
+        "before_warmup": "NOT_TESTED",
+        "after_warmup": "NOT_TESTED",
+        "after_measurement": "NOT_TESTED",
+        "limitation": "Sampled scheduler gauges alone do not prove GPU request cancellation.",
+    }
+    write_json(output / "drain.json", drain_checks)
+    phase = "before_warmup"
     with (
         (output / "raw/requests.jsonl").open("x", buffering=1) as raw,
         (output / "raw/warmup.jsonl").open("x", buffering=1) as warm_raw,
@@ -422,6 +465,7 @@ async def run_point(
                 idle_timeout=settings.vllm_stream_idle_timeout_seconds,
             ) as client:
                 await drain(config, timeout=settings.vllm_stream_idle_timeout_seconds)
+                drain_checks[phase] = "VALIDATED"
                 await closed_loop(
                     client,
                     config,
@@ -435,7 +479,9 @@ async def run_point(
                     for r in warmup
                 ):
                     raise StreamError("warmup_failed_or_nonconformant")
+                phase = "after_warmup"
                 await drain(config, timeout=settings.vllm_stream_idle_timeout_seconds)
+                drain_checks[phase] = "VALIDATED"
                 await closed_loop(
                     client,
                     config,
@@ -444,7 +490,9 @@ async def run_point(
                     run_id=run.run_id,
                     save=save,
                 )
+                phase = "after_measurement"
                 await drain(config, timeout=settings.vllm_stream_idle_timeout_seconds)
+                drain_checks[phase] = "VALIDATED"
         except asyncio.CancelledError:
             interrupted = True
             limitations.append(
@@ -452,6 +500,9 @@ async def run_point(
             )
         except StreamError as exc:
             stop_error = exc.code
+            drain_checks["error"] = exc.code
+            if exc.code.startswith("drain_"):
+                drain_checks[phase] = "FAILED"
             limitations.append(
                 f"Stopped: {exc.code}; inspect residual work before reusing the target."
             )
@@ -460,9 +511,17 @@ async def run_point(
             limitations.append("Runner stopped unexpectedly; residual work is unverified.")
             raise
         finally:
-            result = snapshot(
-                not interrupted and stop_error is None and len(requests) == len(plan.requests)
-            )
+            write_json(output / "drain.json", drain_checks)
+            try:
+                if manifest_path is not None:
+                    shutil.copyfile(manifest_path.parent / "server.log", output / "server.log")
+            except OSError:
+                stop_error = "server_log_collection_failed"
+                limitations.append("Final server log collection failed; evidence is incomplete.")
+            finally:
+                result = snapshot(
+                    not interrupted and stop_error is None and len(requests) == len(plan.requests)
+                )
     if interrupted:
         raise asyncio.CancelledError
     return result
